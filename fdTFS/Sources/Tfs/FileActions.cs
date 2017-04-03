@@ -150,34 +150,8 @@ namespace fdTFS.Sources.Tfs
             return false;
         }
 
-        public bool BuildProject() { return CheckProjectOutputWritable(); }
-        public bool TestProject() { return CheckProjectOutputWritable(); }
-        public bool CheckProjectOutputWritable()
-        {
-            if (manager.CurrentWorkingFolder == null)
-                return false;
-
-            ProjectManager.Projects.Project project = PluginBase.CurrentProject as ProjectManager.Projects.Project;
-            Workstation ws = Workstation.Current;
-            WorkspaceInfo wsi = ws.GetLocalWorkspaceInfo(project.OutputPathAbsolute);
-            if (wsi == null)
-                return false;
-
-            PendingChange[] changes = manager.CurrentWorkspace.GetPendingChanges(project.OutputPathAbsolute);
-            if (changes.Length > 0)
-                return false;
-
-            CheckOutForm checkOutForm = new CheckOutForm();
-            checkOutForm.FilesToCheckOut = new List<string>() { project.OutputPathAbsolute };
-            checkOutForm.LockLevel = (manager.PluginMain.Settings as Settings).DefaultLockLevel;
-            if (checkOutForm.ShowDialog() != DialogResult.Cancel)
-            {
-                manager.CurrentWorkspace.PendEdit(checkOutForm.SelectedFilesToCheckOut.ToArray(), RecursionType.None, null, checkOutForm.LockLevel);
-                return false;
-            }
-            else
-                return true;
-        }
+        public bool BuildProject() { return false; }
+        public bool TestProject() { return false; }
 
         public bool SaveProject()
         {
